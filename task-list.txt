@@ -1,0 +1,9 @@
+UI:
+    Settings
+    Show calendar list
+    Toast after save
+
+Calendar:
+    get list of cals
+    allow user to choose
+    create events and save them
