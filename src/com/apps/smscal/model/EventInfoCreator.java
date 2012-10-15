@@ -1,6 +1,5 @@
 package com.apps.smscal.model;
 
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import android.content.Context;
@@ -23,10 +22,8 @@ public class EventInfoCreator {
         String description = message.getMessageBody();
         String title = FROM + ": " + message.getOriginatingAddress();
 
-        long startTimeMillis = message.getTimestampMillis();
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTimeInMillis(startTimeMillis);
-        Calendar endTime = startTime;
+        long startTime = message.getTimestampMillis();
+        long endTime = startTime;
 
         EventInfo info = EventInfo.makeInstance().setDescription(description)
                 .setTitle(title).setStartTime(startTime).setEndTime(endTime)

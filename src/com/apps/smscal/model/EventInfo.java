@@ -1,12 +1,8 @@
 package com.apps.smscal.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class EventInfo {
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-            "MM/dd HH:mm:ss");
-    private Calendar startTime, endTime;
+    private long startTime, endTime;
     private String title, description;
     private String timeZone;
 
@@ -17,12 +13,12 @@ public class EventInfo {
         return new EventInfo();
     }
 
-    public EventInfo setStartTime(Calendar time) {
+    public EventInfo setStartTime(long time) {
         this.startTime = time;
         return this;
     }
 
-    public EventInfo setEndTime(Calendar endTime) {
+    public EventInfo setEndTime(long endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -42,11 +38,11 @@ public class EventInfo {
         return this;
     }
 
-    public Calendar getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Calendar getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
@@ -64,13 +60,7 @@ public class EventInfo {
 
     @Override
     public String toString() {
-        return String.format("%s. %s to %s. %s", getTitle(),
-                getTimeString(startTime), getTimeString(endTime).toString(),
-                getDescription());
+        return String.format("%s. %s to %s. %s", getTitle(), startTime,
+                endTime, getDescription());
     }
-
-    private static String getTimeString(Calendar cal) {
-        return simpleDateFormat.format(cal.getTime());
-    }
-
 }
