@@ -12,11 +12,12 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.apps.smscal.R;
+import com.apps.smscal.model.CalendarInfo;
 import com.apps.smscal.services.CalendarListManager;
 
 public class CalendarListController {
     private ListView calendarListView;
-    private String currentSelection;
+    private CalendarInfo currentSelection;
     private Activity caller;
     private Cursor cursor;
     private String[] from;
@@ -24,20 +25,21 @@ public class CalendarListController {
             unselectedColor = Color.WHITE;
 
     public CalendarListController(final Activity caller,
-            final ListView calListView) {
+            final ListView calendarListView) {
+        this.currentSelection = new CalendarInfo();
         this.caller = caller;
-        this.calendarListView = calListView;
+        this.calendarListView = calendarListView;
+        addListenerToCalendarList(caller);
+    }
 
-        this.currentSelection = (String) this.calendarListView
-                .getItemAtPosition(0);
-
+    private void addListenerToCalendarList(final Activity caller) {
         this.calendarListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int index,
                     long arg3) {
                 clearSelectedRow();
-                currentSelection = getStringFromListItem(index);
+                updateCalendarInfoFromListItem(index);
 
                 View row = calendarListView.getChildAt(index);
                 row.setBackgroundColor(selectedColor);
@@ -57,10 +59,11 @@ public class CalendarListController {
                 }
             }
 
-            private String getStringFromListItem(int position) {
+            private void updateCalendarInfoFromListItem(int position) {
                 Cursor cursor = (Cursor) calendarListView
                         .getItemAtPosition(position);
-                return cursor.getString(0);
+                currentSelection.setDisplayName(cursor.getString(0));
+                currentSelection.setId(cursor.getInt(1));
             }
         });
     }
@@ -79,7 +82,7 @@ public class CalendarListController {
         this.calendarListView.setAdapter(calendarListAdapter);
     }
 
-    public String getCurrentSelection() {
+    public CalendarInfo getCurrentSelection() {
         return this.currentSelection;
     }
 
