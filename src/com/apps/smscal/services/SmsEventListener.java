@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import com.apps.smscal.observers.SmsReceivedObserver;
 import com.apps.smscal.observers.SmsSentObserver;
@@ -18,8 +17,6 @@ public class SmsEventListener extends Service {
 
     @Override
     public void onCreate() {
-        Toast.makeText(getBaseContext(), "Creating service", Toast.LENGTH_SHORT)
-                .show();
         startObservers();
     }
 
@@ -29,8 +26,6 @@ public class SmsEventListener extends Service {
     }
 
     private void startReceiveObserver() {
-        Toast.makeText(getBaseContext(), "Starting sms_receive",
-                Toast.LENGTH_SHORT).show();
         registerReceiver(new SmsReceivedObserver(), new IntentFilter(RECEIVED));
     }
 
@@ -38,8 +33,6 @@ public class SmsEventListener extends Service {
         ContentResolver resolver = getBaseContext().getContentResolver();
         resolver.registerContentObserver(Uri.parse(SMS_OUT), true,
                 new SmsSentObserver(new Handler(), this));
-        Toast.makeText(getBaseContext(), "Starting sms_send",
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.apps.smscal.R;
 import com.apps.smscal.model.CalendarInfo;
-import com.apps.smscal.services.CalendarListManager;
+import com.apps.smscal.services.CalendarListContentResolver;
 
 public class CalendarListController {
     private ListView calendarListView;
@@ -69,7 +69,7 @@ public class CalendarListController {
     }
 
     public void bindCalendarListToView() {
-        CalendarListManager manager = new CalendarListManager(
+        CalendarListContentResolver manager = new CalendarListContentResolver(
                 this.caller.getContentResolver());
 
         cursor = manager.getCalendarList();

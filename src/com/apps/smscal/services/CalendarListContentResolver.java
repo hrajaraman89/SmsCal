@@ -4,14 +4,14 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.provider.CalendarContract.Calendars;
 
-public class CalendarListManager {
+public class CalendarListContentResolver {
 
     private ContentResolver contentResolver;
 
     private static final String[] EVENT_PROJECTION = new String[] {
             Calendars.CALENDAR_DISPLAY_NAME, Calendars._ID };
 
-    public CalendarListManager(ContentResolver contentResolver) {
+    public CalendarListContentResolver(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 
