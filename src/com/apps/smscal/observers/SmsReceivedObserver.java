@@ -5,12 +5,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.apps.smscal.model.EventInfo;
 import com.apps.smscal.model.EventInfoCreator;
+import com.apps.smscal.services.EventAdder;
 
 public class SmsReceivedObserver extends BroadcastReceiver {
+
+    private EventAdder adder;
+
+    public SmsReceivedObserver(EventAdder adder) {
+        this.adder = adder;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -22,8 +28,7 @@ public class SmsReceivedObserver extends BroadcastReceiver {
                 EventInfo info = EventInfoCreator.makeEventInfoFromBundle(
                         bundle, context);
 
-                Toast.makeText(context, info.toString(), Toast.LENGTH_LONG)
-                        .show();
+                adder.add(info);
             }
         }
     }

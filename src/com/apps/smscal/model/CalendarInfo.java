@@ -1,6 +1,10 @@
 package com.apps.smscal.model;
 
-public class CalendarInfo {
+import java.io.Serializable;
+
+public class CalendarInfo implements Serializable {
+    private static final long serialVersionUID = 7226645508694706309L;
+
     private String displayName;
     private int id;
 

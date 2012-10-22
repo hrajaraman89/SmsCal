@@ -29,6 +29,9 @@ public class CalendarListController {
         this.currentSelection = new CalendarInfo();
         this.caller = caller;
         this.calendarListView = calendarListView;
+
+        this.bindCalendarListToView();
+        this.updateCalendarInfoFromListItem(0);
         addListenerToCalendarList(caller);
     }
 
@@ -59,16 +62,16 @@ public class CalendarListController {
                 }
             }
 
-            private void updateCalendarInfoFromListItem(int position) {
-                Cursor cursor = (Cursor) calendarListView
-                        .getItemAtPosition(position);
-                currentSelection.setDisplayName(cursor.getString(0));
-                currentSelection.setId(cursor.getInt(1));
-            }
         });
     }
 
-    public void bindCalendarListToView() {
+    private void updateCalendarInfoFromListItem(int position) {
+        Cursor cursor = (Cursor) calendarListView.getItemAtPosition(position);
+        currentSelection.setDisplayName(cursor.getString(0));
+        currentSelection.setId(cursor.getInt(1));
+    }
+
+    private void bindCalendarListToView() {
         CalendarListContentResolver manager = new CalendarListContentResolver(
                 this.caller.getContentResolver());
 

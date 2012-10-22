@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 
 public class EventInfoCreator {
-    private static final String FROM = "from";
+    private static final String FROM = "SMS from ";
 
     public static EventInfo makeEventInfoFromBundle(Bundle bundle,
             Context context) {
@@ -20,7 +20,7 @@ public class EventInfoCreator {
         SmsMessage message = SmsMessage.createFromPdu(pdu);
 
         String description = message.getMessageBody();
-        String title = FROM + ": " + message.getOriginatingAddress();
+        String title = FROM + message.getOriginatingAddress();
 
         long startTime = message.getTimestampMillis();
         long endTime = startTime;

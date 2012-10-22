@@ -11,21 +11,24 @@ import com.apps.smscal.services.SmsEventListener;
 
 public class MainActivity extends Activity {
 
+    public static final String CALENDAR_INFO = "CalendarInfo";
+    private CalendarListController controller;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startSmsListeners();
-
         ListView calendarListView = (ListView) findViewById(R.id.calendarListView);
 
-        new CalendarListController(this, calendarListView)
-                .bindCalendarListToView();
+        controller = new CalendarListController(this, calendarListView);
+        startSmsListeners();
     }
 
     private void startSmsListeners() {
         Intent serviceIntent = new Intent(this, SmsEventListener.class);
+        serviceIntent.putExtra(CALENDAR_INFO,
+                this.controller.getCurrentSelection());
         startService(serviceIntent);
     }
 
