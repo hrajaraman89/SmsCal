@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.apps.smscal.R;
 import com.apps.smscal.model.CalendarInfo;
 import com.apps.smscal.services.CalendarListContentResolver;
+import com.apps.smscal.services.UpdateListener;
 
 public class CalendarListController {
     private ListView calendarListView;
@@ -23,9 +24,11 @@ public class CalendarListController {
     private String[] from;
     private final int selectedColor = Color.GREEN,
             unselectedColor = Color.WHITE;
+    private UpdateListener updateListener;
 
     public CalendarListController(final Activity caller,
-            final ListView calendarListView) {
+            final ListView calendarListView, UpdateListener listener) {
+        this.updateListener = listener;
         this.currentSelection = new CalendarInfo();
         this.caller = caller;
         this.calendarListView = calendarListView;
@@ -69,6 +72,8 @@ public class CalendarListController {
         Cursor cursor = (Cursor) calendarListView.getItemAtPosition(position);
         currentSelection.setDisplayName(cursor.getString(0));
         currentSelection.setId(cursor.getInt(1));
+
+        updateListener.onUpdate(getCurrentSelection());
     }
 
     private void bindCalendarListToView() {

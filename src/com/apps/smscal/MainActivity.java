@@ -1,7 +1,6 @@
 package com.apps.smscal;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ListView;
@@ -13,6 +12,7 @@ public class MainActivity extends Activity {
 
     public static final String CALENDAR_INFO = "CalendarInfo";
     private CalendarListController controller;
+    private SmsEventListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,15 +21,14 @@ public class MainActivity extends Activity {
 
         ListView calendarListView = (ListView) findViewById(R.id.calendarListView);
 
-        controller = new CalendarListController(this, calendarListView);
         startSmsListeners();
+
+        controller = new CalendarListController(this, calendarListView,
+                listener);
     }
 
     private void startSmsListeners() {
-        Intent serviceIntent = new Intent(this, SmsEventListener.class);
-        serviceIntent.putExtra(CALENDAR_INFO,
-                this.controller.getCurrentSelection());
-        startService(serviceIntent);
+        this.listener = new SmsEventListener(this, getContentResolver());
     }
 
     @Override

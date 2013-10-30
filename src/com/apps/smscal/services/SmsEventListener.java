@@ -1,30 +1,26 @@
 package com.apps.smscal.services;
 
-import android.app.Service;
 import android.content.ContentResolver;
-import android.content.Intent;
+import android.content.ContextWrapper;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.IBinder;
 
-import com.apps.smscal.MainActivity;
 import com.apps.smscal.model.CalendarInfo;
 import com.apps.smscal.observers.SmsReceivedObserver;
 import com.apps.smscal.observers.SmsSentObserver;
 
-public class SmsEventListener extends Service {
+public class SmsEventListener implements UpdateListener {
     private static final String RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
     private static final String SMS_OUT = "content://sms";
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        CalendarInfo info = (CalendarInfo) intent
-                .getSerializableExtra(MainActivity.CALENDAR_INFO);
+    private ContextWrapper wrapper;
+    private CalendarEventAdder adder;
 
-        EventAdder adder = new CalendarEventAdder(info, getContentResolver());
+    public SmsEventListener(ContextWrapper wrapper, ContentResolver resolver) {
+        this.setWrapper(wrapper);
+        this.adder = new CalendarEventAdder(resolver);
         startObservers(adder);
-        return startId;
     }
 
     private void startObservers(EventAdder adder) {
@@ -33,19 +29,28 @@ public class SmsEventListener extends Service {
     }
 
     private void startReceiveObserver(EventAdder adder) {
-        registerReceiver(new SmsReceivedObserver(adder), new IntentFilter(
-                RECEIVED));
+        wrapper.registerReceiver(new SmsReceivedObserver(adder),
+                new IntentFilter(RECEIVED));
     }
 
     private void startSendObservers() {
-        ContentResolver resolver = getBaseContext().getContentResolver();
+        ContentResolver resolver = wrapper.getBaseContext()
+                .getContentResolver();
         resolver.registerContentObserver(Uri.parse(SMS_OUT), true,
-                new SmsSentObserver(new Handler(), this));
+                new SmsSentObserver(new Handler()));
+    }
+
+    public ContextWrapper getWrapper() {
+        return wrapper;
+    }
+
+    private void setWrapper(ContextWrapper wrapper) {
+        this.wrapper = wrapper;
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public void onUpdate(CalendarInfo info) {
+        adder.setCalendarInfo(info);
     }
 
 }
