@@ -5,12 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.apps.smscal.model.EventInfo;
 import com.apps.smscal.model.EventInfoCreator;
 import com.apps.smscal.services.EventAdder;
 
 public class SmsReceivedObserver extends BroadcastReceiver {
+    private static final String TAG = SmsReceivedObserver.class.getSimpleName();
 
     private EventAdder adder;
 
@@ -27,6 +29,8 @@ public class SmsReceivedObserver extends BroadcastReceiver {
             if (bundle != null) {
                 EventInfo info = EventInfoCreator.makeEventInfoFromBundle(
                         bundle, context);
+
+                Log.d(TAG, "Message received: " + info);
 
                 adder.add(info);
             }

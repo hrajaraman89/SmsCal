@@ -1,7 +1,11 @@
 package com.apps.smscal.model;
 
+import java.util.TimeZone;
 
 public class EventInfo {
+    public static final String DEFAULT_TIME_ZONE = TimeZone.getDefault()
+            .getDisplayName();
+
     private long startTime, endTime;
     private String title, description;
     private String timeZone;

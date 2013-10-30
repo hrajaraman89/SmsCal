@@ -1,7 +1,5 @@
 package com.apps.smscal.model;
 
-import java.util.TimeZone;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
@@ -35,7 +33,7 @@ public class EventInfoCreator {
 
         EventInfo info = EventInfo.makeInstance().setDescription(description)
                 .setTitle(title).setStartTime(startTime).setEndTime(endTime)
-                .setTimeZone(TimeZone.getDefault().getDisplayName());
+                .setTimeZone(EventInfo.DEFAULT_TIME_ZONE);
 
         return info;
     }

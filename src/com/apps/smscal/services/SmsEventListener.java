@@ -20,15 +20,15 @@ public class SmsEventListener implements UpdateListener {
     public SmsEventListener(ContextWrapper wrapper, ContentResolver resolver) {
         this.setWrapper(wrapper);
         this.adder = new CalendarEventAdder(resolver);
-        startObservers(adder);
+        startObservers();
     }
 
-    private void startObservers(EventAdder adder) {
-        this.startReceiveObserver(adder);
+    private void startObservers() {
+        this.startReceiveObserver();
         this.startSendObservers();
     }
 
-    private void startReceiveObserver(EventAdder adder) {
+    private void startReceiveObserver() {
         wrapper.registerReceiver(new SmsReceivedObserver(adder),
                 new IntentFilter(RECEIVED));
     }
@@ -37,7 +37,7 @@ public class SmsEventListener implements UpdateListener {
         ContentResolver resolver = wrapper.getBaseContext()
                 .getContentResolver();
         resolver.registerContentObserver(Uri.parse(SMS_OUT), true,
-                new SmsSentObserver(new Handler()));
+                new SmsSentObserver(new Handler(), resolver, adder));
     }
 
     public ContextWrapper getWrapper() {
