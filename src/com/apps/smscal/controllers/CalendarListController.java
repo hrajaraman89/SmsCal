@@ -32,7 +32,9 @@ public class CalendarListController {
         this.currentSelection = new CalendarInfo();
         this.caller = caller;
         this.calendarListView = calendarListView;
+    }
 
+    public void start() {
         this.bindCalendarListToView();
         this.updateCalendarInfoFromListItem(0);
         addListenerToCalendarList(caller);

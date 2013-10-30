@@ -19,12 +19,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView calendarListView = (ListView) findViewById(R.id.calendarListView);
-
         startSmsListeners();
+        startController();
+    }
+
+    public void startController() {
+        ListView calendarListView = (ListView) findViewById(R.id.calendarListView);
 
         controller = new CalendarListController(this, calendarListView,
                 listener);
+        controller.start();
     }
 
     private void startSmsListeners() {
