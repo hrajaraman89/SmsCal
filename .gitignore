@@ -4,3 +4,11 @@ gen/
 .project
 libs/
 .settings/
+
+*gradle*
+local.properties
+
+*.iml
+.idea/
+
+build/
